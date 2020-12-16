@@ -1,0 +1,31 @@
+{% extends '/users/base.html' %}
+{% block title %} Criar usuários {% endblock %}
+
+{% block header %}
+    <style>
+        input {
+            height: 35px;
+            margin-top: 10px;
+            margin-left: 15px;
+            width: 200px;
+        }
+        #panel {
+            margin-left: 37%;
+            margin-top: 8%;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <h1>Cadastrando um novo usuário:</h1>
+    <div id='panel'>
+        <h3>Insira as informações abaixo:</h3>
+        <form method='POST'>
+            <input name='user' required placeholder='Nome de usuário' /><br />
+            <input name='name' required placeholder='Nome completo' /><br />
+            <input style='width:217px;' value='Cadastrar' type='submit' />
+        </form>
+        <br />
+        <a class='clicavel' href='sing-in'>Não é a sua primeira vez aqui?</a>
+    </div>
+{% endblock %}

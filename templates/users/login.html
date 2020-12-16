@@ -1,0 +1,23 @@
+{% extends '/users/base.html' %}
+{% block title %} Entrar {% endblock %}
+
+{% block header %}
+    <style>
+        #panel {
+            text-align: center;
+            margin-top: 60px;
+        }
+        h2 { margin-top: 15px; }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <h1>Quem está entrando?</h1>
+    <div id='panel'>
+        {% for user in users %}
+            <h2><a class='clicavel' href='sing-in/{{user}}'>{{user}}</a></h2>
+        {% endfor %}
+        <br />
+        <a class='clicavel' href='sing-up'>Premeira vez aqui?</a>
+    </div>
+{% endblock %}

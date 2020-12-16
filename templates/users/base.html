@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% block header %}{% endblock %}
+    <link rel='stylesheet' type='text/css' href='css/main-style.css' />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> {% block title %} {% endblock %} - Gastômetro</title>
+</head>
+<body>
+    <div class='menu'>
+        <header>
+            <div class='logo'><h1>Gastômetro</h1>
+            </div>
+            <!-- <nav>
+                <ul>
+                    <li><a href='index.html'>Home</a></li>
+                    <li><a href='clientes.html'>Descontar</a></li>
+                    <li><a href='sobre.html'>Lista</a></li>
+                    <li><a href='contato.html'>Sobre</a></li>
+                </ul>
+            </nav> -->
+        </header>
+    </div>
+    <div id='content'> {% block content %} {% endblock %} </div>
+</body>
+</html>
