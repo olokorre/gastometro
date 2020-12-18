@@ -8,6 +8,7 @@ app.config['SECRET_KEY'] = 'secret!'
 user = user_db()
 DB = Data_base(user[0], user[1])
 
+# index
 @app.route('/')
 def index():
     user = session.get('user')
@@ -15,6 +16,23 @@ def index():
     else: response = make_response(render_template('index.html', user = user, name = DB.request_name(user), saldo = '0,00'))
     return response
 
+# Registros
+@app.route('/registers')
+def registers():
+    user = session.get('user')
+    if user == None: response = make_response(redirect('/sing-in'))
+    else: response = render_template('/registers/show_all_registers.html', user = user)
+    return response
+
+# Rota do caixa
+@app.route('/box')
+def box():
+    user = session.get('user')
+    if user == None: response = make_response(redirect('/sing-in'))
+    else: response = render_template('box/main_page.html', user = user)
+    return response
+
+# Rotas de autenticação
 @app.route('/sing-up', methods = ('GET', 'POST'))
 def create():
     if request.method == 'GET':
@@ -38,6 +56,7 @@ def login(user):
     session['user'] = user
     return redirect('/')
 
+# rotas auxiliares
 @app.route('/image/<path:path>')
 def send_image(path):
     return send_from_directory('static/image', path)
@@ -45,6 +64,10 @@ def send_image(path):
 @app.route('/css/<path:path>')
 def send_css(path):
     return send_from_directory('static/css', path)
+
+@app.route('/js/<path:path>')
+def send_js(path):
+    return send_from_directory('static/js', path)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080)

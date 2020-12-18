@@ -1,0 +1,22 @@
+{% extends 'forms.html' %}
+{% block page_title %} Registros {% endblock %}
+
+{% block page_header %}
+    <style>
+        #p2 { color: #b13030; }
+    </style>
+{% endblock %}
+
+{% block form %}
+    <span>Insira as informações:</span><br />
+    <input type='date' name='date' required /><br />
+    <input placeholder='Título' name='title' required /><br />
+    <input placeholder='Descrição' name='detais' /><br />
+    <input placeholder='Valor em R$' name='value' required /><br />
+    <input style='width:315px' type='submit' value='Refistrar' required /><br />
+{% endblock %}
+
+{% block page_content %}
+    <h1>Nada foi registrado ainda...</h1>
+    <span onclick='$("#form_window").fadeIn("slow")' class='clicavel'>Novo registro?</span>
+{% endblock %}

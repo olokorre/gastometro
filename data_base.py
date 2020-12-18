@@ -37,3 +37,4 @@ if __name__ == "__main__":
         cursor.execute('create database gastometro')
     cursor.execute('use gastometro')
     cursor.execute('create table user (nick varchar(20) primary key, name varchar(50))')
+    cursor.execute('create table registros (id int(191) primary key auto_increment, data varchar(191) not null, titulo varchar(20) not null, descricao varchar(191) not null, valor int(191))')

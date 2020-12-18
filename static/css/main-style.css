@@ -58,4 +58,9 @@ a {
     color: black;
 }
 
-.clicavel:hover { color: #b13030; }
+.clicavel { -webkit-transition: 1s; }
+
+.clicavel:hover {
+    color: #b13030;
+    -webkit-transition: 1s;
+}
