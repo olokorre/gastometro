@@ -41,13 +41,31 @@ def registers():
 #deletar um registro
 @app.route('/registers/d/<path:path>')
 def edit_registers(path):
-    DB.delete_registers(path)
-    return redirect('/registers')
+    user = session.get('user')
+    if user == None: response = make_response(redirect('/sing-in'))
+    else:
+        try: DB.delete_registers(path)
+        except: pass
+        response = make_response(redirect('/registers'))
+    return response
 
 # em produção
-@app.route('/registers/v/<path:path>')
+@app.route('/registers/v/<path:path>', methods = ('GET', 'POST'))
 def view_registers(path):
-    return redirect('/registers')
+    user = session.get('user')
+    if user == None: response = make_response(redirect('/sing-in'))
+    elif request.method == 'GET': response = make_response(render_template('details_regist.html',user=user, data=DB.get_data_by_id(path)))
+    else:
+        date = request.form['date']
+        title = request.form['title']
+        detais = request.form['detais']
+        value = request.form['value']
+        _type = request.form['type']
+        try: float(value)
+        except: response = 'value deve ser um número'
+        else: DB.update_regist(path, date, title, detais, value, _type)
+        response = make_response(redirect('/registers/v/%s' %path))
+    return response
 
 # Rota do caixa
 # @app.route('/box')

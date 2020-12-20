@@ -1,10 +1,8 @@
 #form_window {
     display: none;
-    position: absolute;
-    border-color: black;
-    border: solid 1px;
+    position: fixed;
     margin-left: 30%;
-    background-color: #f5f5f5;
+    background-color: rgb(211, 211, 211);
     border-radius: 5%;
 }
 

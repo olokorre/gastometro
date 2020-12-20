@@ -30,14 +30,24 @@ class Data_base(object):
     def regist(self, owner, date, title, detais, value, _type):
         self.cursor.execute('insert into register (owner, date, title, detais, value, type) values ("%s", "%s", "%s", "%s", "%s", "%s")' %(owner, date, title, detais, value, _type))
         self.db.commit()
+    
+    def update_regist(self, _id, date, title, detais, value, _type):
+        self.cursor.execute('update register set date = "%s", title = "%s", detais = "%s", value = "%s", type = "%s" where id = %s' %(date, title, detais, value, _type, _id))
+        self.db.commit()
 
     def get_register(self):
         register = []
         for i in self.basic_request('register', 'owner, date, title, value, type, id', 'date'): register.append([i[0], i[1], i[2], i[3], i[4], i[5]])
         return register
 
+    def get_data_by_id(self, _id):
+        self.cursor.execute('select * from register where id = %s' %_id)
+        for i in self.cursor: data = ([i[1], i[2], i[3], i[4], i[5], i[6], i[0]])
+        return data
+
     def delete_registers(self, regist):
         self.cursor.execute('delete from register where id = %s' %regist)
+        self.db.commit()
 
     def calc(self):
         response = 0.00
