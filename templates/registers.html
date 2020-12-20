@@ -1,0 +1,62 @@
+{% extends 'forms.html' %}
+{% block page_title %} Registros {% endblock %}
+
+{% block page_header %}
+    <style>
+        #p2 { color: #b13030; }
+        
+        th { color: #b13030; }
+
+        th, td {
+            padding: 15px;
+            background-color: #f5f5f5;
+        }
+
+    </style>
+{% endblock %}
+
+{% block form %}
+    <span>Insira as informações:</span><br />
+    <input type='date' name='date' required /><br />
+    <input placeholder='Título' name='title' required /><br />
+    <input placeholder='Descrição' name='detais' required /><br />
+    <input placeholder='Valor em R$' name='value' required /><br />
+    <select style='width: 315px; margin-top: 10px;' name='type'>
+        <option value='si'>Saída</option>
+        <option value='en'>Entrada</option>
+    </select><br />
+    <input style='width:315px' type='submit' value='Refistrar' required /><br />
+{% endblock %}
+
+{% block page_content %}
+    {% if registers == [] %}
+        <span onclick='$("#form_window").fadeIn("slow")' class='clicavel'>Novo registro</span>
+        <h1>Nada foi registrado ainda...</h1>
+    {% else %}
+        <span onclick='$("#form_window").fadeIn("slow")' class='clicavel'>Novo registro</span>
+        <table>
+            <tr>
+                <th>Autor</th>
+                <th>Data</th>
+                <th>Título</th>
+                <th>Valor</th>
+                <th>Tipo</th>
+                <th>Operções</th>
+            {% for i in registers %}
+                </tr>
+                {% for l in i %}
+                    <td>
+                        {% if l == 'si' %} Saída
+                        {% elif l == 'en' %} Entrada
+                        {% elif type(l) == type(0) %}
+                            <a href='registers/d/{{l}}'><button>Remover</button></a>
+                            <a href='registers/v/{{l}}'><button>Detalhes</button></a>
+                        {% else %} {{l}}
+                        {% endif %}
+                    </td>
+                {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}

@@ -10,8 +10,9 @@ class Data_base(object):
         self.cursor.execute('insert into user (nick, name) values ("%s", "%s")' %(user, name))
         self.db.commit()
 
-    def basic_request(self, table, column = '*'):
-        self.cursor.execute('select %s from %s' %(column, table))
+    def basic_request(self, table, column = '*', order_by = ''):
+        if order_by == '': self.cursor.execute('select %s from %s' %(column, table))
+        else: self.cursor.execute('select %s from %s order by %s' %(column, table, order_by))
         return self.cursor
 
     def request_users(self):
@@ -26,6 +27,18 @@ class Data_base(object):
             if user == i[0]: return i[1]
         return None
 
+    def regist(self, owner, date, title, detais, value, _type):
+        self.cursor.execute('insert into register (owner, date, title, detais, value, type) values ("%s", "%s", "%s", "%s", "%s", "%s")' %(owner, date, title, detais, value, _type))
+        self.db.commit()
+
+    def get_register(self):
+        register = []
+        for i in self.basic_request('register', 'owner, date, title, value, type, id', 'date'): register.append([i[0], i[1], i[2], i[3], i[4], i[5]])
+        return register
+
+    def delete_registers(self, regist):
+        self.cursor.execute('delete from register where id = %s' %regist)
+
 if __name__ == "__main__":
     user = user_db()
     db = mysql.connector.connect(user = user[0], passwd = user[1])
@@ -37,4 +50,4 @@ if __name__ == "__main__":
         cursor.execute('create database gastometro')
     cursor.execute('use gastometro')
     cursor.execute('create table user (nick varchar(20) primary key, name varchar(50))')
-    cursor.execute('create table registros (id int(191) primary key auto_increment, data varchar(191) not null, titulo varchar(20) not null, descricao varchar(191) not null, valor int(191))')
+    cursor.execute('create table register (id int(191) primary key auto_increment, owner varchar(20), date varchar(191) not null, title varchar(20) not null, detais varchar(191) not null, value varchar(191), type varchar(2) not null)')

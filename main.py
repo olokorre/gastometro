@@ -17,20 +17,45 @@ def index():
     return response
 
 # Registros
-@app.route('/registers')
+@app.route('/registers', methods = ('GET', 'POST'))
 def registers():
     user = session.get('user')
     if user == None: response = make_response(redirect('/sing-in'))
-    else: response = render_template('/registers/show_all_registers.html', user = user)
+    elif request.method == 'GET':
+        registers = DB.get_register()
+        response = render_template('registers.html', user=user, registers=registers, type=type)
+    elif request.method == 'POST':
+        owner = DB.request_name(user)
+        date = request.form['date']
+        title = request.form['title']
+        detais = request.form['detais']
+        value = request.form['value']
+        _type = request.form['type']
+        try: float(value)
+        except: response = 'value deve ser um número'
+        else:
+            DB.regist(owner, date, title, detais, value, _type)
+            response = make_response(redirect('/registers'))
     return response
 
+#deletar um registro
+@app.route('/registers/d/<path:path>')
+def edit_registers(path):
+    DB.delete_registers(path)
+    return redirect('/registers')
+
+# em produção
+@app.route('/registers/v/<path:path>')
+def view_registers(path):
+    return redirect('/registers')
+
 # Rota do caixa
-@app.route('/box')
-def box():
-    user = session.get('user')
-    if user == None: response = make_response(redirect('/sing-in'))
-    else: response = render_template('box/main_page.html', user = user)
-    return response
+# @app.route('/box')
+# def box():
+#     user = session.get('user')
+#     if user == None: response = make_response(redirect('/sing-in'))
+#     else: response = render_template('box/main_page.html', user = user)
+#     return response
 
 # Rotas de autenticação
 @app.route('/sing-up', methods = ('GET', 'POST'))
