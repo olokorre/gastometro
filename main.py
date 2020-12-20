@@ -13,7 +13,7 @@ DB = Data_base(user[0], user[1])
 def index():
     user = session.get('user')
     if user == None: response = make_response(redirect('/sing-in'))
-    else: response = make_response(render_template('index.html', user = user, name = DB.request_name(user), saldo = '0,00'))
+    else: response = make_response(render_template('index.html',user=user,name=DB.request_name(user),saldo=DB.calc()))
     return response
 
 # Registros
@@ -23,7 +23,7 @@ def registers():
     if user == None: response = make_response(redirect('/sing-in'))
     elif request.method == 'GET':
         registers = DB.get_register()
-        response = render_template('registers.html', user=user, registers=registers, type=type)
+        response = render_template('registers.html',user=user,registers=registers,type=type)
     elif request.method == 'POST':
         owner = DB.request_name(user)
         date = request.form['date']

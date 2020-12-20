@@ -25,7 +25,7 @@
         <option value='si'>Saída</option>
         <option value='en'>Entrada</option>
     </select><br />
-    <input style='width:315px' type='submit' value='Refistrar' required /><br />
+    <input style='width:315px' type='submit' value='Registrar' required /><br />
 {% endblock %}
 
 {% block page_content %}
@@ -44,17 +44,16 @@
                 <th>Operções</th>
             {% for i in registers %}
                 </tr>
-                {% for l in i %}
+                    {% for l in range(3) %} <td>{{i[l]}}</td> {% endfor %}
+                    <td>R${{i[3]}}</td>
                     <td>
-                        {% if l == 'si' %} Saída
-                        {% elif l == 'en' %} Entrada
-                        {% elif type(l) == type(0) %}
-                            <a href='registers/d/{{l}}'><button>Remover</button></a>
-                            <a href='registers/v/{{l}}'><button>Detalhes</button></a>
-                        {% else %} {{l}}
-                        {% endif %}
+                        {% if i[4] == 'si' %} Saída {% endif %}
+                        {% if i[4] == 'en' %} Entrada {% endif %}
                     </td>
-                {% endfor %}
+                    <td>
+                        <a href='registers/d/{{i[5]}}'><button>Remover</button></a>
+                        <a href='registers/v/{{i[5]}}'><button>Detalhes</button></a>
+                    </td>
                 </tr>
             {% endfor %}
         </table>

@@ -39,6 +39,13 @@ class Data_base(object):
     def delete_registers(self, regist):
         self.cursor.execute('delete from register where id = %s' %regist)
 
+    def calc(self):
+        response = 0.00
+        for i in self.basic_request('register', 'type, value'):
+            if i[0] == 'si': response -= float(i[1])
+            elif i[0] == 'en': response += float(i[1])
+        return response
+
 if __name__ == "__main__":
     user = user_db()
     db = mysql.connector.connect(user = user[0], passwd = user[1])
