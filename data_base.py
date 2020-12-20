@@ -44,7 +44,7 @@ class Data_base(object):
         for i in self.basic_request('register', 'type, value'):
             if i[0] == 'si': response -= float(i[1])
             elif i[0] == 'en': response += float(i[1])
-        return response
+        return ('%.2f' % response)
 
 if __name__ == "__main__":
     user = user_db()

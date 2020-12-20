@@ -64,3 +64,10 @@ a {
     color: #b13030;
     -webkit-transition: 1s;
 }
+
+button, input, select {
+    background-color: #b13030;
+    border:none;
+    padding: 5px;
+    color: white;
+}
