@@ -12,8 +12,9 @@ DB = Data_base(user[0], user[1])
 @app.route('/')
 def index():
     user = session.get('user')
+    saldo = DB.calc_balance()
     if user == None: response = make_response(redirect('/sing-in'))
-    else: response = make_response(render_template('index.html',user=user,name=DB.request_name(user),saldo=DB.calc()))
+    else: response = make_response(render_template('index.html',user=user,name=DB.request_name(user),saldo=saldo))
     return response
 
 # Registros
@@ -31,10 +32,11 @@ def registers():
         detais = request.form['detais']
         value = request.form['value']
         _type = request.form['type']
+        _class = request.form['class']
         try: float(value)
         except: response = 'value deve ser um número'
         else:
-            DB.regist(owner, date, title, detais, value, _type)
+            DB.regist(owner, date, title, detais, value, _type, _class)
             response = make_response(redirect('/registers'))
     return response
 

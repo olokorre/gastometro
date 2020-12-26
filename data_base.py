@@ -27,8 +27,8 @@ class Data_base(object):
             if user == i[0]: return i[1]
         return None
 
-    def regist(self, owner, date, title, detais, value, _type):
-        self.cursor.execute('insert into register (owner, date, title, detais, value, type) values ("%s", "%s", "%s", "%s", "%s", "%s")' %(owner, date, title, detais, value, _type))
+    def regist(self, owner, date, title, detais, value, _type, _class):
+        self.cursor.execute('insert into register (owner, date, title, detais, value, type, class) values ("%s", "%s", "%s", "%s", "%s", "%s", "%s")' %(owner, date, title, detais, value, _type, _class))
         self.db.commit()
     
     def update_regist(self, _id, date, title, detais, value, _type):
@@ -37,19 +37,19 @@ class Data_base(object):
 
     def get_register(self):
         register = []
-        for i in self.basic_request('register', 'owner, date, title, value, type, id', 'date'): register.append([i[0], i[1], i[2], i[3], i[4], i[5]])
+        for i in self.basic_request('register', 'owner, date, title, value, type, id, class', 'date'): register.append([i[0], i[1], i[2], i[3], i[4], i[5], i[6]])
         return register
 
     def get_data_by_id(self, _id):
         self.cursor.execute('select * from register where id = %s' %_id)
-        for i in self.cursor: data = ([i[1], i[2], i[3], i[4], i[5], i[6], i[0]])
+        for i in self.cursor: data = ([i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[0]])
         return data
 
     def delete_registers(self, regist):
         self.cursor.execute('delete from register where id = %s' %regist)
         self.db.commit()
 
-    def calc(self):
+    def calc_balance(self):
         response = 0.00
         for i in self.basic_request('register', 'type, value'):
             if i[0] == 'si': response -= float(i[1])
@@ -67,4 +67,4 @@ if __name__ == "__main__":
         cursor.execute('create database gastometro')
     cursor.execute('use gastometro')
     cursor.execute('create table user (nick varchar(20) primary key, name varchar(50))')
-    cursor.execute('create table register (id int(191) primary key auto_increment, owner varchar(20), date varchar(191) not null, title varchar(20) not null, detais varchar(191) not null, value varchar(191), type varchar(2) not null)')
+    cursor.execute('create table register (id int(191) primary key auto_increment, owner varchar(20), date varchar(191) not null, title varchar(20) not null, detais varchar(191) not null, class varchar(2) default "cp", value varchar(191), type varchar(2) not null)')

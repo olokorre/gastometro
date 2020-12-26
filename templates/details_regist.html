@@ -18,6 +18,12 @@
         <option value='si'>Saída</option>
         <option value='en'>Entrada</option>
     </select><br />
+    <select style='width: 310px; margin-top: 10px;' name='class'>
+        <option value='cp'>Curto praso</option>
+        <option value='mp'>Médio praso</option>
+        <option value='lp'>Longo praso</option>
+        <option value='ms'>Mensalidade</option>
+    </select><br />
     <input value='{{data[4]}}' placeholder='Valor em R$' name='value' required /><br />
     <input style='width:310px' type='submit' value='Salvar' required /><br />
 {% endblock %}
@@ -26,12 +32,17 @@
     <h1 class='destac'>Nome <span>{{data[2]}}</span></h1>
     <h3 class='destac'>Detalhes <span>{{data[3]}}</span></h3>
     <h3 class='destac'>Data <span>{{data[1]}}</span></h3>
-    <h3 class='destac'>Valor <span>R${{data[4]}}</span></h3>
-    {% if data[5] == 'si' %} <h3 class='destac'>Tipo <span>Saída</span></h3> {% endif %}
-    {% if data[5] == 'en' %} <h3 class='destac'>Tipo <span>Entrada</span></h3> {% endif %}
+    <h3 class='destac'>Valor <span>R${{data[5]}}</span></h3>
+    {% if data[6] == 'si' %} <h3 class='destac'>Tipo <span>Saída</span></h3> {% endif %}
+    {% if data[6] == 'en' %} <h3 class='destac'>Tipo <span>Entrada</span></h3> {% endif %}
+    {% if data[4] == 'cp' %} <h3 class='destac'>Classificação <span>Curto praso</span></h3> {% endif %}
+    {% if data[4] == 'mp' %} <h3 class='destac'>Classificação <span>Médio praso</span></h3> {% endif %}
+    {% if data[4] == 'lp' %} <h3 class='destac'>Classificação <span>Longo praso</span></h3> {% endif %}
+    {% if data[4] == 'ms' %} <h3 class='destac'>Classificação <span>Mensalidade</span></h3> {% endif %}
     <h4 class='destac'>Autor <span>{{data[0]}}</span></h4>
+    <!-- {{data}} -->
     <br />
     <button onclick='$("#form_window").fadeIn("slow")'>Editar</button>
-    <a href='/registers/d/{{data[6]}}'><button>Remover</button></a>
+    <a href='/registers/d/{{data[7]}}'><button>Remover</button></a>
     <a href='/registers'><button>Voltar</button></a>
 {% endblock %}

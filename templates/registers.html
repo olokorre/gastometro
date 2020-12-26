@@ -24,6 +24,12 @@
         <option value='si'>Saída</option>
         <option value='en'>Entrada</option>
     </select><br />
+    <select style='width: 310px; margin-top: 10px;' name='class'>
+        <option value='cp'>Curto praso</option>
+        <option value='mp'>Médio praso</option>
+        <option value='lp'>Longo praso</option>
+        <option value='ms'>Mensalidade</option>
+    </select><br />
     <input placeholder='Valor em R$' name='value' required /><br />
     <input style='width:310px' type='submit' value='Registrar' required /><br />
 {% endblock %}
@@ -40,12 +46,19 @@
                 <th>Data</th>
                 <th>Título</th>
                 <th>Valor</th>
+                <th>Classificação</th>
                 <th>Tipo</th>
                 <th>Operções</th>
             {% for i in registers %}
                 </tr>
                     {% for l in range(3) %} <td>{{i[l]}}</td> {% endfor %}
                     <td>R${{i[3]}}</td>
+                    <td>
+                        {% if i[6] == 'cp' %} Curto praso {% endif %}
+                        {% if i[6] == 'mp' %} Médio praso {% endif %}
+                        {% if i[6] == 'lp' %} Longo praso {% endif %}
+                        {% if i[6] == 'ms' %} Mensalidade {% endif %}
+                    </td>
                     <td>
                         {% if i[4] == 'si' %} Saída {% endif %}
                         {% if i[4] == 'en' %} Entrada {% endif %}
