@@ -17,29 +17,28 @@
 
 {% block form %}
     <span>Insira as informações:</span><br />
-    <input type='date' name='date' required /><br />
-    <input placeholder='Título' name='title' required /><br />
-    <input placeholder='Descrição' name='detais' required /><br />
-    <select style='width: 310px; margin-top: 10px;' name='type'>
+    <input id="date" type='date' name='date' required /><br />
+    <input id="title" placeholder='Título' name='title' required /><br />
+    <input id="description" placeholder='Descrição' name='detais' required /><br />
+    <select id="type" style='width: 310px; margin-top: 10px;' name='type'>
         <option value='si'>Saída</option>
         <option value='en'>Entrada</option>
     </select><br />
-    <select style='width: 310px; margin-top: 10px;' name='class'>
+    <select id="class" style='width: 310px; margin-top: 10px;' name='class'>
         <option value='cp'>Curto praso</option>
         <option value='mp'>Médio praso</option>
         <option value='lp'>Longo praso</option>
         <option value='ms'>Mensalidade</option>
     </select><br />
-    <input placeholder='Valor em R$' name='value' required /><br />
+    <input id="value" type="text" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," placeholder='Valor em R$' name='value' required /><br />
     <input style='width:310px' type='submit' value='Registrar' required /><br />
 {% endblock %}
 
 {% block page_content %}
+<span id="newRegister" class='clicavel'>Novo registro</span>
     {% if registers == [] %}
-        <span onclick='$("#form_window").fadeIn("slow")' class='clicavel'>Novo registro</span>
         <h1>Nada foi registrado ainda...</h1>
     {% else %}
-        <span onclick='$("#form_window").fadeIn("slow")' class='clicavel'>Novo registro</span>
         <table>
             <tr>
                 <th>Autor</th>
@@ -71,4 +70,45 @@
             {% endfor %}
         </table>
     {% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(() => {
+        $('#newRegister').on('click', () => {
+            $("#form_window").fadeIn("slow");
+        });
+
+        $('#value').maskMoney();
+
+        $('form').on('submit', (e) => {
+            e.preventDefault();
+            $.ajax({
+                url: '/registers',
+                type: 'post',
+                data: {
+                    date: $('#date').val(),
+                    title: $('#title').val(),
+                    description: $('#description').val(),
+                    type: $('#type').val(),
+                    class: $('#class').val(),
+                    value: $('#value').maskMoney('unmasked')[0]
+                },
+                success: (result) => {
+                    $('#date').val('');
+                    $('#title').val('');
+                    $('#description').val('');
+                    $('#type').val('');
+                    $('#class').val('');
+                    $('#value').val('');
+                    $("#form_window").fadeOut();
+                }
+            });
+
+            const loadTable = () => {
+                
+            };
+        });
+    });
+</script>
 {% endblock %}

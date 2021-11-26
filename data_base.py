@@ -3,7 +3,7 @@ from functions import user_db
 
 class Data_base(object):
     def __init__(self, user, passwd):
-        self.db = mysql.connector.connect(user = user, passwd = passwd, db = 'gastometro')
+        self.db = mysql.connector.connect(user = user, passwd = passwd, db = 'gastometro', host='dados.com')
         self.cursor = self.db.cursor()
 
     def register_user(self, user, name):
@@ -58,7 +58,7 @@ class Data_base(object):
 
 if __name__ == "__main__":
     user = user_db()
-    db = mysql.connector.connect(user = user[0], passwd = user[1])
+    db = mysql.connector.connect(user = user[0], passwd = user[1], host='dados.com')
     cursor = db.cursor()
     try:
         cursor.execute('create database gastometro')
