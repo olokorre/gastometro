@@ -12,3 +12,15 @@ def createRegister():
     value = request.form['value']
     balance.createRegister(date, title, description, type, _class, value)
     return controller.success('Nice')
+
+def getRegisters():
+    select = balance.getRegisters()
+    columns = ['id', 'name', 'description', 'type', 'class', 'value', 'date']
+    result = controller.loadJson(columns, select)
+    return controller.success('nice', result)
+
+def getBalance():
+    result = balance.getBalance()
+    return controller.success('cu', {
+        'balance': '%s' %result[0][0]
+    })

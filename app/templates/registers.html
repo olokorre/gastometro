@@ -36,45 +36,28 @@
 
 {% block page_content %}
 <span id="newRegister" class='clicavel'>Novo registro</span>
-    {% if registers == [] %}
-        <h1>Nada foi registrado ainda...</h1>
-    {% else %}
-        <table>
+    <table id="registers">
+        <thead>
             <tr>
-                <th>Autor</th>
                 <th>Data</th>
-                <th>Título</th>
-                <th>Valor</th>
-                <th>Classificação</th>
+                <th>Título</th> 
+                <th>Descrição</th>
                 <th>Tipo</th>
-                <th>Operções</th>
-            {% for i in registers %}
-                </tr>
-                    {% for l in range(3) %} <td>{{i[l]}}</td> {% endfor %}
-                    <td>R${{i[3]}}</td>
-                    <td>
-                        {% if i[6] == 'cp' %} Curto praso {% endif %}
-                        {% if i[6] == 'mp' %} Médio praso {% endif %}
-                        {% if i[6] == 'lp' %} Longo praso {% endif %}
-                        {% if i[6] == 'ms' %} Mensalidade {% endif %}
-                    </td>
-                    <td>
-                        {% if i[4] == 'si' %} Saída {% endif %}
-                        {% if i[4] == 'en' %} Entrada {% endif %}
-                    </td>
-                    <td>
-                        <a href='registers/d/{{i[5]}}'><button>Remover</button></a>
-                        <a href='registers/v/{{i[5]}}'><button>Detalhes</button></a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    {% endif %}
+                <th>Classificação</th>
+                <th>Valor</th>
+                <!-- <th>Operções</th> -->
+            </tr>
+        </thead>
+        <tbody id="showRegisters"></tbody>
+    </table>
 {% endblock %}
 
 {% block scripts %}
 <script>
     $(document).ready(() => {
+
+        var registers = null;
+
         $('#newRegister').on('click', () => {
             $("#form_window").fadeIn("slow");
         });
@@ -102,13 +85,57 @@
                     $('#class').val('');
                     $('#value').val('');
                     $("#form_window").fadeOut();
+                    loadTable();
                 }
             });
-
-            const loadTable = () => {
-                
-            };
         });
+
+        const loadTable = () => {
+            $.ajax({
+                url: '/registers/data',
+                success: (result) => {
+                    if (registers) registers.destroy();
+                    $('#showRegisters').empty();
+                    for (item of result.data) {
+                        let row = $('<tr align="center"></tr>');
+                        date = '<td>'+ new Date(item.date).toLocaleDateString() +'</td>';
+                        name = '<td>'+ item.name +'</td>';
+                        description = '<td>'+ item.description +'</td>';
+                        type = '<td>'+ loadType(item.type) +'</td>';
+                        _class = '<td>'+ loadClass(item.class) +'</td>';
+                        value = '<td style="color: '+ ((item.type == 'en') ? 'green' : 'red') +';">'+ parseFloat(item.value).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) +'</td>';
+                        operations = '<td></td>';
+                        row.append(date);
+                        row.append(name);
+                        row.append(description);
+                        row.append(type);
+                        row.append(_class);
+                        row.append(value);
+                        //row.append(operations);
+                        $('#showRegisters').append(row);
+                    }
+                    registers = $('#registers').DataTable({
+                        "order": [[ 0, "desc" ]]
+                    });
+                }
+            });
+        }
+
+        const loadClass = (value) => {
+            if (value == 'cp') return 'Curto praso';
+            else if (value == 'mp') return 'Médio praso';
+            else if (value == 'lp') return 'Longo praso';
+            else if (value == 'ms') return 'Mensalidade';
+            return '';
+        }
+
+        const loadType = (value) => {
+            if (value == 'si') return 'Saída';
+            else if (value == 'en') return 'Entrada';
+            return '';
+        }
+
+        loadTable();
     });
 </script>
 {% endblock %}

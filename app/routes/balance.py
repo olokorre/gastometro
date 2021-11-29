@@ -6,3 +6,11 @@ from ..controllers import balance
 def registers():
     if request.method == 'GET': return render_template('registers.html')
     return balance.createRegister()
+
+@app.route('/registers/data')
+def registersData():
+    return balance.getRegisters()
+
+@app.route('/balance')
+def getBalance():
+    return balance.getBalance()

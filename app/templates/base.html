@@ -3,28 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src = "/js/jquery-3.4.1.js"></script>
-    <script src = "/js/jquery.maskMoney.min.js"></script>
-    <link rel='stylesheet' type='text/css' href='/css/main-style.css' />
+    <script src="/js/jquery-3.4.1.js"></script>
+    <script src="/js/jquery.maskMoney.min.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/main-style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/jquery.dataTables.min.css" />
     {% block header %}{% endblock %}
     <title> {% block title %} {% endblock %} - Gastômetro</title>
 </head>
 <body>
-    <div class='menu'>
+    <div class="menu">
         <header>
-            <div class='logo'><h1>Gastômetro</h1>
+            <div class="logo"><h1>Gastômetro</h1>
             </div>
             <nav>
                 <ul>
-                    <li><a id='p1' class='clicavel' href='/'>Home</a></li>
-                    <li><a id='p2' class='clicavel' href='/registers'>Registros</a></li>
-                    <!-- <li><a id='p3' class='clicavel' href='/box'>Caixa</a></li> Sim, eu fiz inglês na fisk -->
-                    <li><a id='p4' class='clicavel' href='/sing-in'>{{user}}</a></li>
+                    <li><a id="p1" class="clicavel" href="/">Home</a></li>
+                    <li><a id="p2" class="clicavel" href="/registers">Registros</a></li>
+                    <!-- <li><a id="p3" class="clicavel" href="/box">Caixa</a></li> Sim, eu fiz inglês na fisk -->
+                    <!-- <li><a id="p4" class="clicavel" href="/sing-in">{{user}}</a></li> -->
                 </ul>
             </nav>
         </header>
     </div>
-    <div id='content'> {% block content %} {% endblock %} </div>
+    <div id="content"> {% block content %} {% endblock %} </div>
 </body>
 
 {% block scripts %}

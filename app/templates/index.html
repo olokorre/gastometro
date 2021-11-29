@@ -8,6 +8,20 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Bem vindo {{name}}</h1>
-    <p>Balanço: R${{saldo}}</p>
+    <h1>Bem vindo!</h1>
+    <p id="showBalance">Balanço: </p>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(() => {
+            $.ajax({
+                url: '/balance',
+                success: (result) => {
+                    var span = '<span style="color: '+ ((parseFloat(result.data.balance) > 0) ? 'green' : 'red') +';">'+ parseFloat(result.data.balance).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) +'</span>';
+                    $('#showBalance').append(span);
+                }
+            })
+        });
+    </script>
 {% endblock %}
